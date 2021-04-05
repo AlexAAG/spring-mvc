@@ -4,58 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import web.dao.CarDao;
-import web.model.Car;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import web.dao.CarDao;
 
 @Controller
 public class CarController {
 
     @Autowired
     private CarDao carDao;
-
-    @GetMapping(value = "/cars")
-    public String getCars(Integer count, ModelMap model) {  //count передается в поисковой строке браузера?
-
-        if(count == null) {
-            List<Car> carList2 = carDao.getListCar();
-            model.addAttribute("sudaIdi", carList2);
-        } else {
-            List<Car> carList = carDao.getCarsId(count);
-            model.addAttribute("sudaIdi", carList);
-        }
-
-       //model.addAttribute("sudaIdi", carList); //sudaIdi-параметр, к которому обра-
-        //щаемся в html. Параметр - carDao.getCars(), результат работы метода
-//        Car car = carDao.showCar(modelCar);
-//        model.addAttribute("car", car);  //называться одинаково, но это не точно. Вкладывать модель, а не представление
-        return "cars";                                  //урл по которому будет показываться и лежать html
+//1
+    @GetMapping("/cars")
+    public String getCars(@RequestParam(required=false,value = "count") Integer count, Model model) {
+        model.addAttribute("cars", carDao.getCars(count));
+        return "cars";
     }
-
-//    @GetMapping("/cars")
-//    public String showCars(@RequestParam(value = "count") Optional<Integer> count, Model model) {
-//        model.addAttribute("cars", carDao.getCars(count.orElse(0)));
-//        return "cars";
-//    }
-
-
-
-
-
-
-
-
-
-//    @GetMapping("/{modelCar}")                                //передается число, которое передается в адрес метода
-//    public String show(@PathVariable("modelCar") String modelCar, Model model) {
-//        //получаем одну машину по id из dao и передадим на отображение и представление
-//        Car car = carDao.showCar(modelCar);
-//        model.addAttribute("car", car);  //называться одинаково, но это не точно. Вкладывать модель, а не представление
-//        return "show";
-//    }
 }

@@ -6,16 +6,22 @@
     <title>Cars</title>
 </head>
 <body>
-    <!--  ${sudaIdi} коллекция наша из контроллера             -->
-    <!--  sudaIdiCar : ${sudaIdi} подобие цикла форич            -->
-    <!--  th:href="@{/show/{modelCar}.. переход по ссылке           -->
-    <!--  th:text="${car.getModel()}.. текст подставляющийся вместо user     -->
-    <!--  методы, по которым можно обращаться к car берутся из класса Car.java     -->
-    <!--  /{modelCar}(modelCar=${car.getModelCar() динамичеыская страница     -->
-    <!--th:href="@{/{modelCar}(modelCar=${car.getModelCar()})}"-->
-    <div> <th:block th:each="car : ${sudaIdi}" >
-        <h1 th:text="${car}"></h1>
-    </th:block>
+    <div>
+        <table border="1">
+            <tr>
+                <th>Модель</th>
+                <th>Серия</th>
+                <th>Цена</th>
+                <th>Категория</th>
+            </tr>
+
+            <tr th:each="car : ${cars}">
+                <td th:utext="${car.getModelCar()}">index</td>
+                <td th:utext="${car.getSeries()}">count</td>
+                <td th:utext="${car.getPrice()}">size</td>
+                <td th:utext="${car.getCategory()}">even</td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>
