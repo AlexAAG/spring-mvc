@@ -7,16 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import web.dao.CarDao;
+import web.service.CarService;
 
 @Controller
 public class CarController {
 
+    private CarService carService;
+
     @Autowired
-    private CarDao carDao;
-//1
+    public CarController(CarService carService) {
+        this.carService = carService;
+    }
+//21
     @GetMapping("/cars")
     public String getCars(@RequestParam(required=false,value = "count") Integer count, Model model) {
-        model.addAttribute("cars", carDao.getCars(count));
+        model.addAttribute("cars", carService.getCars(count));
         return "cars";
     }
 }
