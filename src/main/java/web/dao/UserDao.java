@@ -14,4 +14,8 @@ public interface UserDao {
     User getUserById(int id);
 
     List<User> listUsers();
+
+    //del
+    List<User> getAllUsers();
+    //<del
 }

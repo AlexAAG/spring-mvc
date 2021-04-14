@@ -3,20 +3,21 @@ package web.model;
 
 import javax.persistence.*;
 
-//@Entity
+@Entity
+@Table
 public class User {
-    //@Id
-    //@Column
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@Column
+    @Column
     private String name;
 
-    //@Column
+    @Column
     private String job;
 
-    //@Column
+    @Column
     private int age;
 
     public User() {
