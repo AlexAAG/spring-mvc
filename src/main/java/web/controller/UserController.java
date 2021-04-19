@@ -9,7 +9,7 @@ import web.service.CarService;
 import web.service.UserService;
 
 @Controller
-@RequestMapping("/users")       //подпапка всех контроллеров класса
+@RequestMapping("/users")       //подпапк а всех контроллеров класса
 public class UserController {
 
     private UserService userService;
