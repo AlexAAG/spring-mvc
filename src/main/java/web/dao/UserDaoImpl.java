@@ -18,58 +18,95 @@ public class UserDaoImpl implements UserDao{
 
     private SessionFactory sessionFactory = Util.getSessionFactory();
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    //15-04 14:49
+//    public void setSessionFactory(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
+
+    @Override
+    public List<User> listUsers() {
+        List<User> userList;
+
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM User");
+        userList = query.list();
+
+        return userList;
     }
 
     @Override
     public void addUser(User user) {
         Session session = this.sessionFactory.getCurrentSession();
+
+        session.beginTransaction();
+
         session.persist(user);
         System.out.println("Пользователь добавлен: "+user);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public void updateUser(User user) {
         Session session = this.sessionFactory.getCurrentSession();
+
+        session.beginTransaction();
+
         session.update(user);
         System.out.println("Пользователь обновлен: "+user);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public void removeUser(int id) {
         Session session = this.sessionFactory.getCurrentSession();
+
+        session.beginTransaction();
+
         User user = (User) session.load(User.class, new Integer(id));
 
         if(user != null) {
             session.delete(user);
         }
         System.out.println("Пользователь удален: "+user);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public User getUserById(int id) {
         Session session = this.sessionFactory.getCurrentSession();
+
+        session.beginTransaction();
+
         User user = (User) session.load(User.class, new Integer(id));
         System.out.println("Пользователь выбран: "+user);
+
+        session.getTransaction().commit();
+        session.close();
 
         return user;
     }
 
-    @Override
-    //Generic. действительно будет legal во время выполнения.
-    @SuppressWarnings("unchecked")
-    public List<User> listUsers() {
-        Session session = this.sessionFactory.openSession();
-        List<User> userList = session.createQuery("From User").list();
-        session.beginTransaction();
-
-        for(User user : userList) {
-            System.out.println("Список пользователей: "+user);
-        }
-
-        return userList;
-    }
+    //15-04
+//    @Override
+//    //Generic. действительно будет legal во время выполнения.
+//    @SuppressWarnings("unchecked")
+//    public List<User> listUsers() {
+//        Session session = this.sessionFactory.openSession();
+//        List<User> userList = session.createQuery("From User").list();
+//        session.beginTransaction();
+//
+//        for(User user : userList) {
+//            System.out.println("Список пользователей: "+user);
+//        }
+//
+//        return userList;
+//    }
 
     //del
     @Override

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь</title>
+</head>
+<body>
+<div>
+    <h1>Карточка пользователя</h1>
+    <p>Имя пользователя: <span th:text="${user.getName()}">VALUE</span></p>
+    <p>Работа: <span th:text="${user.getJob()}">VALUE</span></p>
+    <p>Возраст: <span th:text="${user.getAge()}">VALUE</span></p>
+    <hr/>
+    <!--перейти на редактирование человека-->
+    <a th:href="@{/users/{id}/edit (id=${user.getId()})}">Edit</a>
+
+    <br/>
+    <br/>
+    <!--delete-запрос нельзя переслать с помощью тега <a>. Только get запрос-->
+    <form th:method="DELETE" th:action="@{/users/{id} (id=${user.getId()})}">
+        <input type="submit" value="Delete">
+    </form>
+</div>
+</body>
+</html>
