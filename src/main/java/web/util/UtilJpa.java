@@ -22,11 +22,11 @@ import java.util.Objects;
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
-public class UtilJPA {
+public class UtilJpa {
 
     private final Environment environment;
 
-    public UtilJPA(Environment environment) {
+    public UtilJpa(Environment environment) {
         this.environment = environment;
     }
 
@@ -37,23 +37,26 @@ public class UtilJPA {
         dataSource.setUrl(environment.getProperty("db.url"));
         dataSource.setUsername(environment.getProperty("db.username"));
         dataSource.setPassword(environment.getProperty("db.password"));
+
         return dataSource;
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("web.model");      //сканирует  entity
-        em.setJpaVendorAdapter(vendorAdapter);
-        return em;
+        LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
+        entityManager.setDataSource(dataSource());
+        entityManager.setPackagesToScan("web.model");      //сканирует  entity
+        entityManager.setJpaVendorAdapter(vendorAdapter);
+
+        return entityManager;
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
+
         return transactionManager;
     }
 }

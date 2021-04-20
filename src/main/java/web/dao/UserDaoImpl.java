@@ -9,126 +9,56 @@ import web.model.Car;
 import web.model.User;
 import web.util.Util;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class UserDaoImpl implements UserDao{
 
-    private SessionFactory sessionFactory = Util.getSessionFactory();
-
-    //15-04 14:49
-//    public void setSessionFactory(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<User> listUsers() {
-        List<User> userList;
 
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM User");
-        userList = query.list();
-
-        return userList;
+        return entityManager.createQuery("FROM User").getResultList();
     }
 
     @Override
     public void addUser(User user) {
-        Session session = this.sessionFactory.getCurrentSession();
-
-        session.beginTransaction();
-
-        session.persist(user);
-        System.out.println("Пользователь добавлен: "+user);
-
-        session.getTransaction().commit();
-        session.close();
+        entityManager.persist(user);
+        entityManager.flush();
     }
 
     @Override
     public void updateUser(User user) {
-        Session session = this.sessionFactory.getCurrentSession();
-
-        session.beginTransaction();
-
-        session.update(user);
-        System.out.println("Пользователь обновлен: "+user);
-
-        session.getTransaction().commit();
-        session.close();
+        entityManager.merge(user);
+        entityManager.flush();
     }
 
     @Override
     public void removeUser(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
-
-        session.beginTransaction();
-
-        User user = (User) session.load(User.class, new Integer(id));
-
-        if(user != null) {
-            session.delete(user);
+        User user = getUserById(id);
+        if (null == user) {
+            throw new NullPointerException("User not found");
         }
-        System.out.println("Пользователь удален: "+user);
-
-        session.getTransaction().commit();
-        session.close();
+        entityManager.remove(user);
+        entityManager.flush();
     }
 
     @Override
     public User getUserById(int id) {
-        Session session = this.sessionFactory.getCurrentSession();
-
-        session.beginTransaction();
-
-        User user = (User) session.load(User.class, new Integer(id));
-        System.out.println("Пользователь выбран: "+user);
-
-        session.getTransaction().commit();
-        session.close();
-
-        return user;
+        return entityManager.find(User.class, id);
     }
-
-    //15-04
-//    @Override
-//    //Generic. действительно будет legal во время выполнения.
-//    @SuppressWarnings("unchecked")
-//    public List<User> listUsers() {
-//        Session session = this.sessionFactory.openSession();
-//        List<User> userList = session.createQuery("From User").list();
-//        session.beginTransaction();
-//
-//        for(User user : userList) {
-//            System.out.println("Список пользователей: "+user);
-//        }
-//
-//        return userList;
-//    }
 
     //del
     @Override
     public List<User> getAllUsers() {
-        List<User> userList;
-
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("FROM User");
-        userList = query.list();
-
-        return userList;
+        return entityManager.createQuery("FROM User").getResultList();
     }
     //<del
 
-    //work14-04 15:45
-//    @Override
-//    public List<User> listUsers() {
-//
-//        List<User> listCar = new ArrayList<>();
-//
-//        listCar.add(new User(1, "Alex1", "manager1", 111));
-//
-//        return listCar;
-//    }
 }
