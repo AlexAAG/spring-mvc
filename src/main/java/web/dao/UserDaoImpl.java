@@ -1,21 +1,13 @@
 package web.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import web.model.Car;
 import web.model.User;
-import web.util.Util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Repository
+@Component
 public class UserDaoImpl implements UserDao{
 
     @PersistenceContext
@@ -42,9 +34,7 @@ public class UserDaoImpl implements UserDao{
     @Override
     public void removeUser(int id) {
         User user = getUserById(id);
-        if (null == user) {
-            throw new NullPointerException("User not found");
-        }
+
         entityManager.remove(user);
         entityManager.flush();
     }
@@ -53,12 +43,5 @@ public class UserDaoImpl implements UserDao{
     public User getUserById(int id) {
         return entityManager.find(User.class, id);
     }
-
-    //del
-    @Override
-    public List<User> getAllUsers() {
-        return entityManager.createQuery("FROM User").getResultList();
-    }
-    //<del
 
 }

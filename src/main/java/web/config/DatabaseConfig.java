@@ -1,4 +1,4 @@
-package web.util;
+package web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,18 +15,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 import java.util.Objects;
 
 @Configuration
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
-public class UtilJpa {
+public class DatabaseConfig {
 
     private final Environment environment;
 
-    public UtilJpa(Environment environment) {
+    public DatabaseConfig(Environment environment) {
         this.environment = environment;
     }
 
@@ -42,7 +41,7 @@ public class UtilJpa {
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(dataSource());

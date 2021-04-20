@@ -15,7 +15,4 @@ public interface UserDao {
 
     List<User> listUsers();
 
-    //del
-    List<User> getAllUsers();
-    //<del
 }
