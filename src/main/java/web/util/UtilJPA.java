@@ -45,7 +45,7 @@ public class UtilJPA {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan("web.model");      //сканирует entity
+        em.setPackagesToScan("web.model");      //сканирует  entity
         em.setJpaVendorAdapter(vendorAdapter);
         return em;
     }
