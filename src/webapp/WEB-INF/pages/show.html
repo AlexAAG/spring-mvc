@@ -12,12 +12,9 @@
     <p>Работа: <span th:text="${user.getJob()}">VALUE</span></p>
     <p>Возраст: <span th:text="${user.getAge()}">VALUE</span></p>
     <hr/>
-    <!--перейти на редактирование человека-->
     <a th:href="@{/users/{id}/edit (id=${user.getId()})}">Edit</a>
-
     <br/>
     <br/>
-    <!--delete-запрос нельзя переслать с помощью тега <a>. Только get запрос-->
     <form th:method="DELETE" th:action="@{/users/{id} (id=${user.getId()})}">
         <input type="submit" value="Delete">
     </form>
