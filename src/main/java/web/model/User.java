@@ -1,6 +1,8 @@
 package web.model;
 
 
+
+import javax.management.relation.Role;
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +14,10 @@ public class User {
     private int id;
 
     @Column
-    private String name;
+    private String name;    //уникальное? // в бд нужно уникальным сделать (поставить галку)
+
+    @Column
+    private String password;
 
     @Column
     private String job;
@@ -20,15 +25,21 @@ public class User {
     @Column
     private int age;
 
+    @Enumerated(value = EnumType.STRING)             //enum хранится
+    @Column
+    private Role role;                  //import javax.management.relation.Role; ИМПОРТ???!!!!!!!!
+
     public User() {
 
     }
 
-    public User(int id, String name, String job, int age) {
+    public User(int id, String name, String password, String job, int age, Role role) {
         this.id = id;
         this.name = name;
+        this.password = password;
         this.job = job;
         this.age = age;
+        this.role = role;
     }
 
     public int getId() {
@@ -47,6 +58,14 @@ public class User {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getJob() {
         return job;
     }
@@ -63,13 +82,11 @@ public class User {
         this.age = age;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", job='" + job + '\'' +
-                ", age=" + age +
-                '}';
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
