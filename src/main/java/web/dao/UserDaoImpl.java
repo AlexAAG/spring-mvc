@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
 @Component
 public class UserDaoImpl implements UserDao{
 
@@ -40,4 +41,11 @@ public class UserDaoImpl implements UserDao{
     public User getUserById(int id) {
         return entityManager.find(User.class, id);
     }
+
+    //ИСПРАВИЛ!!!!!!!!!
+//    Optional<User> findByName(String name){
+//        return user;
+//    }
+
+
 }

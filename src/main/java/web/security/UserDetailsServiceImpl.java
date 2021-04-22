@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import web.model.User;
 import web.repository.UserRepository;
 
+
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
