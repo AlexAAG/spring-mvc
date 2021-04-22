@@ -3,6 +3,7 @@ package web.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import web.model.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,5 +54,13 @@ public class UserSecurity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public static UserDetails fromUser(User user) {
+        return new org.springframework.security.core.userdetails.User(
+                user.getName(),
+                user.getPassword(),
+                user.getRole().getAuthorities()
+        );
     }
 }

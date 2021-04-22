@@ -2,7 +2,6 @@ package web.model;
 
 
 
-import javax.management.relation.Role;
 import javax.persistence.*;
 
 @Entity
